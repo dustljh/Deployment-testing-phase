@@ -16,13 +16,22 @@ app.add_middleware(
 )
 
 # DB 연결 (Railway 환경변수 사용)
-db = mysql.connector.connect(
-    host=os.getenv("MYSQLHOST"),        # //오류 수정
-    user=os.getenv("MYSQLUSER"),        # //오류 수정
-    password=os.getenv("MYSQLPASSWORD"),# //오류 수정
-    database=os.getenv("MYSQLDATABASE"),# //오류 수정
-    port=int(os.getenv("MYSQLPORT","3306"))    # //오류 수정
-)
+if os.getenv("MYSQLHOST"):
+    db = mysql.connector.connect(
+        host=os.getenv("MYSQLHOST"),
+        user=os.getenv("MYSQLUSER"),
+        password=os.getenv("MYSQLPASSWORD"),
+        database=os.getenv("MYSQLDATABASE"),
+        port=int(os.getenv("MYSQLPORT", "3306"))
+    )
+else:
+    db = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="1234",
+        database="testdb",
+        port=3306
+    )
 
 @app.get("/")
 def home():
