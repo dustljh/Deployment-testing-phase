@@ -16,10 +16,10 @@ app.add_middleware(
 # DB 연결 함수
 def get_db():
     return psycopg2.connect(
-        host=os.getenv("PGHOST", "localhost"),
-        user=os.getenv("PGUSER", "root"),
-        password=os.getenv("PGPASSWORD", "1234"),
-        database=os.getenv("PGDATABASE", "testdb"),
+        host=os.getenv("PGHOST"),
+        database=os.getenv("PGDATABASE"),
+        user=os.getenv("PGUSER"),
+        password=os.getenv("PGPASSWORD"),
         port=os.getenv("PGPORT", "5432")
     )
 
