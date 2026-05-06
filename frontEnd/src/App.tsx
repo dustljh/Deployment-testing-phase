@@ -7,9 +7,9 @@ type User = {
 
 function App() {
   const [users, setUsers] = useState<User[]>([]); //오류 수정: 타입 지정
-
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/users")
+    fetch(`${API_BASE_URL}/users`)
       .then(res => res.json())
       .then(data => setUsers(data));
   }, []);
