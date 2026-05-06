@@ -9,7 +9,7 @@ function App() {
   const [users, setUsers] = useState<User[]>([]); //오류 수정: 타입 지정
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/users")
+    fetch("https://deployment-testing-phase.onrender.com/users")
       .then(res => res.json())
       .then(data => setUsers(data));
   }, []);
