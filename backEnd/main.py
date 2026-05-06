@@ -1,7 +1,7 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import mysql.connector
+import psycopg2
 import os
 
 app = FastAPI()
@@ -13,25 +13,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# DB 연결 함수로 변경 (중요)
+# DB 연결 함수
 def get_db():
-    return mysql.connector.connect(
-        host=os.getenv("MYSQLHOST", "localhost"),
-        user=os.getenv("MYSQLUSER", "root"),
-        password=os.getenv("MYSQLPASSWORD", "1234"),
-        database=os.getenv("MYSQLDATABASE", "testdb"),
-        port=int(os.getenv("MYSQLPORT", "3306"))
+    return psycopg2.connect(
+        host=os.getenv("PGHOST", "localhost"),
+        user=os.getenv("PGUSER", "root"),
+        password=os.getenv("PGPASSWORD", "1234"),
+        database=os.getenv("PGDATABASE", "testdb"),
+        port=os.getenv("PGPORT", "5432")
     )
 
 @app.get("/users")
 def get_users():
     db = get_db()
-    cursor = db.cursor(dictionary=True)
+    cursor = db.cursor()
 
     cursor.execute("SELECT * FROM users")
-    result = cursor.fetchall()
+    rows = cursor.fetchall()
 
     cursor.close()
     db.close()
 
-    return result
+    return rows
